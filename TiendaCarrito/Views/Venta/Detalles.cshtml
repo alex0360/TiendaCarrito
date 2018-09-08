@@ -1,0 +1,50 @@
+﻿@{
+    ViewBag.Title = "Detalles";
+}
+@model TiendaCarrito.Models.Venta
+<h2>Detalles la Compra</h2>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">Dia de la Venta</th>
+            <td>@Model.DiaVenta</td>
+        </tr>
+        <tr>
+            <th scope="col">SubTotal</th>
+            <td>@String.Format("{0:C}", Model.Subtotal)</td>
+        </tr>
+        <tr>
+            <th scope="col">Itbs</th>
+            <td>@String.Format("{0:C}", Model.Itbs)</td>
+        </tr>
+        <tr>
+            <th scope="col">Total</th>
+            <td>@String.Format("{0:C}", Model.Total)</td>
+        </tr>
+    </thead>
+</table>
+
+<table class="table table-responsive">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Producto</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.ListaVenta != null)
+        {
+            foreach (var lista in Model.ListaVenta)
+            {
+                <tr>
+                    <td>@lista.Producto.Nombre</td>
+                    <td>@String.Format("{0:C}", lista.Producto.Precio)</td>
+                    <td>@lista.Cantidad</td>
+                    <td>@String.Format("{0:C}", lista.Total)</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

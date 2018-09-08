@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+@model IEnumerable<TiendaCarrito.Models.Venta>
+<h2>Ventas del Dia</h2>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">Fecha de Venta</th>
+            <th scope="col">SubTotal</th>
+            <th scope="col">ITBS</th>
+            <th scope="col">Total</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            foreach (var venta in Model)
+            {
+                if (venta.Usuario == User.Identity.Name)
+                {
+                    <tr>
+                        <td>@venta.DiaVenta</td>
+                        <td>@String.Format("{0:C}", venta.Subtotal)</td>
+                        <td>@String.Format("{0:C}", venta.Itbs)</td>
+                        <td>@String.Format("{0:C}", venta.Total)</td>
+                        <th scope="row">@Html.ActionLink("Detalles", "Detalles", "Venta", new { Id = @venta.IdVenta }, null)</th>
+                    </tr>
+                }
+            }
+        }
+    </tbody>
+</table>
+

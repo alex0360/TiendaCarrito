@@ -1,0 +1,56 @@
+﻿@model IEnumerable<TiendaCarrito.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Crear nuevo Elemento", "Create")
+</p>
+<table class="table table-responsive">
+    <tr>
+        <th scope="col">
+            @Html.DisplayNameFor(model => model.Nombre)
+        </th>
+        <th scope="col">
+            @Html.DisplayNameFor(model => model.Precio)
+        </th>
+        <th scope="col">
+            @Html.DisplayName("Fecha de Creacion")
+        </th>
+        <th scope="col">
+            @Html.DisplayNameFor(model => model.Image)
+        </th>
+        <th scope="col">
+            @Html.DisplayName("Categoria")
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nombre)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Precio)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaCreacion)
+        </td>
+        <td>
+            <img src="@Url.Action("Imagen", "Productoes", new { id = item.IdProducto })" style="max-width: 90px;min-width: 90px; max-height: 90px; min-height:90px;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Categoria.Nombre)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Edit", new { id=item.IdProducto }) |
+            @Html.ActionLink("Detalles", "Details", new { id=item.IdProducto }) |
+            @Html.ActionLink("Eliminar", "Delete", new { id=item.IdProducto })
+        </td>
+    </tr>
+}
+
+</table>

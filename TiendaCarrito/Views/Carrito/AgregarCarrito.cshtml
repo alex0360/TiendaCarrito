@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Mi Carrito";
+}
+
+<h2 class="h2 embed-responsive">Mi Carrito</h2>
+<table class="table table-responsive">
+    <thead>
+        <tr>
+            <th scope="col">Nombre</th>
+            <th scope="col">Precio</th>
+            <th scope="col">Cantidad</th>
+            <th scope="col">Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{double total = 0; }
+        @if (Session["carrito"] != null)
+        {
+            foreach (var item in (List<TiendaCarrito.Models.CarritoItem>)Session["carrito"])
+            {
+                total += (double)(item.Cantidad * item.Producto.Precio);
+        <tr>
+            <td>@item.Producto.Nombre</td>
+            <td>@String.Format("{0:C}", item.Producto.Precio)</td>
+            <td>@item.Cantidad</td>
+            <td>@string.Format("{0:C}", (item.Cantidad * item.Producto.Precio))</td>
+            <td>
+                <img src="@Url.Action("Imagen", "Producto", new { id = item.Producto.IdProducto })" style="max-width: 50px; max-height: 50px" />
+            </td>
+            <td>@Html.ActionLink("Eliminar", "Delete", "Carrito", new { Id = item.Producto.IdProducto }, null)</td>
+        </tr>
+            }
+        }
+    </tbody>
+    <tfoot>
+        <tr>
+            <th colspan="4" scope="auto"> Total: </th>
+            <th>@string.Format("{0:C}", total)</th>
+        </tr>
+    </tfoot>
+</table>
+@Html.ActionLink("Seguir Comprando", "Index", "Producto", null, null) |
+
+@Html.ActionLink("Pagar", "FinalizarCompra", "Carrito", null, null)

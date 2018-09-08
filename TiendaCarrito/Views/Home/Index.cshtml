@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Inicio";
+}
+@model IEnumerable<TiendaCarrito.Models.Producto>
+<div class="jumbotron">
+    <h1>Tienda Online</h1>
+    <p class="lead">Tienda Con Carrito de Compras. En MVC 5,ASP.NET, C#</p>
+    <p><a href="https://alex0360.visualstudio.com/TiendaCarrito/_git/TiendaCarrito" class="btn btn-primary btn-lg"> Repositorio en Git_VisualStudio &raquo;</a></p>
+    <p><a href="https://alex0360.visualstudio.com/TiendaCarrito/_git/TiendaCarrito" class="btn btn-primary btn-lg"> Repositorio en GitHub &raquo;</a></p>
+</div>
+
+<div>
+    @if (Model != null)
+    {
+        int i = 0;
+        foreach (var item in Model)
+        {
+
+            if (i > 9)
+            {
+                <br />
+                i = 0;
+            }
+            i++;
+
+            <piture>
+            <a href="@Url.Action("AgregarCarrito","Carrito",new { Id = item.IdProducto }, null)" title="Agregar el Carrito"><img src="@Url.Action("Imagen", "Home", new { id = item.IdProducto })" style="max-width: 90px;min-width: 90px; max-height: 90px; min-height:90px;">
+             </a></piture>   
+        }
+    }
+</div>

@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "Productos";
+}
+@model IEnumerable<TiendaCarrito.Models.Producto>
+
+<h2>Productos</h2>
+
+@if (Model != null)
+{
+    <table class="table table-responsive table-condensed">
+        <thead>
+            <tr>
+                <th class="invisible"></th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th class="invisible" scope="col">Cantidad</th>
+                <th scope="col">Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td class="invisible" id="id">@item.IdProducto</td>
+                    <td class="col-sm-3">@item.Nombre </td>
+                    <td>@String.Format("{0:C}", item.Precio)</td>
+                    <td class="invisible">cantidad</td>
+                    <td>
+                        <img src="@Url.Action("Imagen", "Producto", new { id = item.IdProducto })" style="max-width: 40px;min-width: 50px; max-height: 40px; min-height:50px;" />
+                    </td>
+
+                    <!--<td><input type="number" id="quantity" class="form-control numbers" min="0" /></td>-->
+                    <td class="text-center">
+                        @Html.ActionLink("Agregar", "AgregarCarrito", "Carrito", new { Id = item.IdProducto }, null)
+                        @*if (User.IsInRole("Administrador"))
+                    {*@
+                        <!--<a href="#" Class="agregar" title="Agragar al Carrito"><span class="glyphicon glyphicon-plus"></span> </a>-->
+                        @*}*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@section Scripts
+{
+    <script>
+    $(function () {
+        $(".agregar").on("click", function (event) {
+            event.preventDefault();
+            var IdP = document.getElementById("#id");
+            var cantidad = $("#quantity").val();
+
+            $.ajax(
+                {
+                    url: "@Url.Action("AgregarCarrito", "Carrito")",
+                    data:  { Id: IdP, cantidad: cantidad },
+                    type: "post",
+                    success: function (response) {
+                        window.location.href="@Url.Action("AgregarCarrito", "Carrito")";
+                    },
+                    error:function(err,error)
+                    {
+                        alert(error);
+                    }
+                }
+                );
+        });
+        $(".numbers").keydown(function (e) {
+
+            if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 40]) !== -1 ||
+                (e.keyCode == 65 && e.ctrlKey === true) ||
+                (e.keyCode >= 35 && e.keyCode <= 39)) {
+                    return;
+                }
+
+            if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                e.preventDefault();
+            }
+        });
+    });
+    </script>
+}
+
